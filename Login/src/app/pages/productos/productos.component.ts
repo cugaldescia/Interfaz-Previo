@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProductosService } from '../../services/productos.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-productos',
@@ -17,6 +18,8 @@ export class ProductosComponent implements OnInit {
   dataSource = new MatTableDataSource<any>(); // DataSource para los productos
   productoSeleccionado: any | null = null;
   showModal = false; // Controla si se muestra el modal
+  usuario: string = '';
+  oficina: string = '';
 
 
   constructor(
@@ -27,6 +30,8 @@ export class ProductosComponent implements OnInit {
 
   ngOnInit(): void {
     this.factura = localStorage.getItem('factura');
+    this.usuario = localStorage.getItem('usuario') || '';
+    this.oficina = localStorage.getItem('oficina') || '';
 
     if (!this.factura) {
       console.error('Factura no encontrada en el localStorage');

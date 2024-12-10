@@ -47,7 +47,8 @@ export class RegistroProductosComponent implements OnInit {
   clienteC: string = ''; // Nueva variable
   proveedorC: string = ''; // Nueva variable
   oficina: string = ''; // Nueva variable
-
+  nombre: string = ''; // Nueva variable
+  factura: string = ''; // Nueva variable
 
   constructor(
     private registroPService: RegistroproductosService,
@@ -64,6 +65,8 @@ export class RegistroProductosComponent implements OnInit {
     this.cargarDatosGlobales();
     this.loadPais();
     this.loadUnidad();
+
+    
   }
 
   
@@ -208,6 +211,8 @@ export class RegistroProductosComponent implements OnInit {
     this.clienteC = localStorage.getItem('cliente') || ''; // Carga el cliente desde el localStorage
     this.proveedorC = localStorage.getItem('proveedorId') || ''; // Carga el proveedor desde el localStorage
     this.oficina = localStorage.getItem('oficina') || ''; // Carga la oficina desde el localStorage
+    this.nombre = localStorage.getItem('nombre') || ''; // Carga el nombre desde el localStorage
+    this.factura = localStorage.getItem('factura') || ''; // Carga la factura desde el localStorage
     console.log('Datos cargados desde localStorage:');
     console.log('ID Factura:', this.idfact);
     console.log('Usuario:', this.usuario);

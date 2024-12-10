@@ -4,12 +4,15 @@
     <div class="mb-6">
       <img src="assets/Grupo_Escalante_logo.png" alt="Grupo Escalante" class="w-32 h-auto mx-auto filter grayscale" style="filter: brightness(0) invert(1);">
     </div>
+    <div class="text-center mb-6">
+      <p class="text-lg">{{ usuario }}</p>
+      <p class="text-sm">{{ oficina }}</p>
+    </div>
     <ul class="space-y-4">
       <li>
-        <a class="text-lg hover:text-gray-800 hover:bg-white p-2 rounded-md transition">
+        <a href="/asignacion-referencias" class="text-lg hover:text-gray-800 hover:bg-white p-2 rounded-md transition">
           Referencias
         </a>
-      </li>
       <li>
         <a href="/facturas" class="text-lg hover:text-gray-800 hover:bg-white p-2 rounded-md transition">
           Facturas Registradas
@@ -31,7 +34,7 @@
   <div class="flex-1 p-6 bg-gray-100">
     <!-- Header -->
     <div class="flex justify-between items-center mb-6">
-      <h2 class="text-2xl font-semibold text-gray-800">Productos Registradas</h2>
+      <h2 class="text-2xl font-semibold text-gray-800">Productos Registrados</h2>
       <button 
       (click)="navigateToRegistroProducto()" 
       class="bg-custom-blue text-white px-6 py-2 rounded-lg hover:bg-blue-600 hover:scale-105 transform transition">
@@ -77,7 +80,7 @@
 
     <!-- No Data Found -->
     <div class="text-center mt-8" *ngIf="dataSource.data.length === 0">
-      <p class="text-gray-600">No se encontraron referencias.</p>
+      <p class="text-gray-600">No se encontraron productos.</p>
     </div>
   </div>
 </div>

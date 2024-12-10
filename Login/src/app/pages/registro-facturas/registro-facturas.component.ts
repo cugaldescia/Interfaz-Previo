@@ -23,6 +23,7 @@ export class RegistroFacturasComponent implements OnInit {
   identificador: string = '';              
   oficina: string = '';            
   cliente: string ='';
+  usuario: string = '';
   showSuccessModal: boolean = false
   constructor(private registroFPService: RegistroFPService, private router: Router, private proveedoresServices:ProveedoresService) {}
 
@@ -37,6 +38,7 @@ export class RegistroFacturasComponent implements OnInit {
     this.identificador = localStorage.getItem('rfc') || ''; 
     this.oficina = localStorage.getItem('oficina') || '';
     this.cliente= localStorage.getItem('cliente') || '';
+    this.usuario = localStorage.getItem('usuario') || '';
   }
 
   loadProveedores() {

@@ -5,6 +5,7 @@ import { PaisService } from '../../services/pais.service';
 import { UnidadService } from '../../services/unidad.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-editar-productos',
@@ -28,6 +29,8 @@ export class EditarProductosComponent implements OnInit {
   orden: string = '';
   observacionesProducto: string = '';
   peso: string = '';
+  usuario: string = '';
+  oficina: string = '';
 
   constructor(
     private editarProductoService: EditarProductoService,
@@ -44,6 +47,8 @@ export class EditarProductosComponent implements OnInit {
 }
 
   cargarDatosGlobales() {
+    this.usuario = localStorage.getItem('usuario') || '';
+    this.oficina = localStorage.getItem('oficina') || '';
     this.productoId = localStorage.getItem('productoId') || '';
     this.facturaId = localStorage.getItem('id') || '';
     this.producto = localStorage.getItem('producto') || '';
