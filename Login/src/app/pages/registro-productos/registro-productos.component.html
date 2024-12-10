@@ -1,0 +1,287 @@
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <div class="w-64 bg-custom-blue text-white p-4 min-h-screen hidden lg:block">
+    <div class="mb-6">
+      <img src="assets/Grupo_Escalante_logo.png" alt="Grupo Escalante" class="w-32 h-auto mx-auto filter grayscale" style="filter: brightness(0) invert(1);">
+    </div>
+    <ul class="space-y-4">
+      <li>
+        <a class="text-lg hover:text-gray-800 hover:bg-white p-2 rounded-md transition">
+          Referencias
+        </a>
+      </li>
+      <li>
+        <a href="/facturas" class="text-lg hover:text-gray-800 hover:bg-white p-2 rounded-md transition">
+          Facturas Registradas
+        </a>
+      </li>
+      <li>
+        <a href="/productos" class="text-lg hover:text-gray-800 hover:bg-white p-2 rounded-md transition">
+          Productos Registrados
+        </a>
+      </li>
+      <li>
+        <a href="/login" class="text-lg hover:text-gray-800 hover:bg-white p-2 rounded-md transition">
+          Cerrar de Sesion
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="flex-1 p-6 bg-gray-100 overflow-auto">
+    <form (ngSubmit)="agregar(); agregarNoclasificado()" class="space-y-6 max-w-2xl mx-auto">
+      <!-- Factura -->
+      <div class="space-y-4 mb-6">
+        <!-- Información global -->
+      </div>
+
+      <!-- Producto -->
+      <div class="flex flex-col md:flex-row items-center">
+        <label for="producto" class="text-lg font-semibold text-gray-700 mr-4 md:mr-6">Producto:</label>
+        
+        <input 
+          id="producto" 
+          [(ngModel)]="producto" 
+          name="producto" 
+          required 
+          [ngClass]="validacionProductoClase"
+          class="p-2 w-3/4 md:w-1/2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        />
+      
+        <button 
+          type="button" 
+          (click)="validarProducto()"
+          class="ml-4 px-4 py-2 bg-custom-blue text-white rounded-md hover:bg-custom-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-blue">
+          Validar
+        </button>
+      </div>
+      <p *ngIf="validacionProductoMensaje" [ngClass]="validacionProductoClase" class="mt-2">{{ validacionProductoMensaje }}</p>
+
+      <!-- Descripción -->
+      <div class="flex flex-col" >
+        <label for="descripcion" class="text-lg font-semibold text-gray-700">Descripcion:</label>
+        <input 
+          id="descripcion" 
+          [(ngModel)]="descripcion" 
+          name="descripcion" 
+          required 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        />
+      </div>
+
+      <div class="flex flex-col" *ngIf="!isProductoClasificado">
+        <label for="usoMercancia" class="text-lg font-semibold text-gray-700">Uso de Mercancia:</label>
+        <select 
+          id="usoMercancia" 
+          [(ngModel)]="usoMercancia" 
+          name="usoMercancia" 
+          title="Selecciona el uso de la mercancia" 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        >
+          <option value="O">O: OTROS</option>
+          <option value="H">H: HUMANO</option>
+          <option value="V">V: VETERINARIO</option>
+          <option value="I">I: INDUSTRIAL</option>
+        </select>
+      </div>
+      
+      <!-- Pestañas para Estado de la Mercancia -->
+      <div class="flex flex-col" *ngIf="!isProductoClasificado">
+        <label for="estadoMercancia" class="text-lg font-semibold text-gray-700">Estado de la Mercancia:</label>
+        <select 
+          id="estadoMercancia" 
+          [(ngModel)]="estadoMercancia" 
+          name="estadoMercancia" 
+          title="Selecciona el estado de la mercancia" 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        >
+          <option value="N">N: NUEVO</option>
+          <option value="U">U: USADO</option>
+          <option value="R">R: RECONSTRUIDOS</option>
+          <option value="S">S: SEMIUSADOS</option>
+        </select>
+      </div>
+      <!-- Presentación o Composición -->
+      <div class="flex flex-col" *ngIf="!isProductoClasificado">
+        <label for="presentacionComposicion" class="text-lg font-semibold text-gray-700">Presentación o Composición:</label>
+        <input 
+          id="presentacionComposicion" 
+          [(ngModel)]="presentacionComposicion" 
+          name="presentacionComposicion" 
+          required 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        />
+       <!-- Marca -->
+      </div>
+      <div class="flex flex-col" *ngIf="!isProductoClasificado">
+        <label for="marca" class="text-lg font-semibold text-gray-700">Marca:</label>
+        <input 
+          id="marca" 
+          [(ngModel)]="marca" 
+          name="marca" 
+          required 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        />
+        <!-- Modelo -->
+      </div>
+      <div class="flex flex-col" *ngIf="!isProductoClasificado">
+        <label for="modelo" class="text-lg font-semibold text-gray-700">Modelo:</label>
+        <input 
+          id="modelo" 
+          [(ngModel)]="modelo" 
+          name="modelo" 
+          required 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        />
+      </div>
+      <!-- Número de Serie -->
+      <div class="flex flex-col">
+        <label for="numeroserie" class="text-lg font-semibold text-gray-700">Numero de Serie:</label>
+        <input 
+          id="numeroserie" 
+          [(ngModel)]="numeroSerie" 
+          name="numeroserie" 
+          required 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        />
+      </div>
+
+      <!-- Orden -->
+      <div class="flex flex-col">
+        <label for="orden" class="text-lg font-semibold text-gray-700">Orden:</label>
+        <input 
+          id="orden" 
+          [(ngModel)]="orden" 
+          name="orden" 
+          required 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        />
+      </div>
+
+      <!-- Cantidad -->
+      <div class="flex flex-col">
+        <label for="cantidad" class="text-lg font-semibold text-gray-700">Cantidad:</label>
+        <input 
+          id="cantidad" 
+          [(ngModel)]="cantidad" 
+          name="cantidad" 
+          required 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        />
+      </div>
+
+      <!-- Peso -->
+      <div class="flex flex-col">
+        <label for="peso" class="text-lg font-semibold text-gray-700">Peso:</label>
+        <input 
+          id="peso" 
+          [(ngModel)]="peso" 
+          name="peso" 
+          required 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        />
+      </div>
+
+      <!-- Observaciones Producto -->
+      <div class="flex flex-col">
+        <label for="observacionesProducto" class="text-lg font-semibold text-gray-700">Observaciones Producto:</label>
+        <textarea 
+          id="observacionesProducto" 
+          [(ngModel)]="observacionesProducto" 
+          name="observacionesProducto" 
+          required 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        ></textarea>
+      </div>
+
+      <!-- País -->
+      <div class="flex flex-col">
+        <label for="pais" class="text-lg font-semibold text-gray-700">Pais:</label>
+        <select 
+          id="pais" 
+          [(ngModel)]="selectedpais" 
+          name="pais" 
+          title="Selecciona un proveedor" 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        >
+          <option *ngFor="let pais of paises" [value]="pais.clave + ' - ' + pais.nombre">
+            {{ pais.clave }} - {{ pais.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Unidad -->
+      <div class="flex flex-col">
+        <label for="Unidad" class="text-lg font-semibold text-gray-700">Unidad:</label>
+        <select 
+          id="unidad" 
+          [(ngModel)]="selectedunidad" 
+          name="unidad" 
+          title="Selecciona la unidad" 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        >
+          <option *ngFor="let unidad of unidades" [value]="unidad.clave + ' - ' + unidad.descripcion">
+            {{ unidad.clave }} - {{ unidad.descripcion }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Estatus -->
+      <div class="flex flex-col">
+        <label class="text-lg font-semibold text-gray-700">Estatus</label>
+        <div class="flex items-center space-x-6">
+          <!-- Opción "Sí" -->
+          <label class="flex items-center space-x-2">
+            <input
+              type="radio"
+              name="isDefectuoso"
+              value="1"
+              [(ngModel)]="isDefectuoso"
+              class="text-custom-blue focus:ring-custom-blue" />
+            <span class="text-lg">Sí</span>
+          </label>
+          <!-- Opción "No" -->
+          <label class="flex items-center space-x-2">
+            <input
+              type="radio"
+              name="isDefectuoso"
+              value="0"
+              [(ngModel)]="isDefectuoso"
+              class="text-custom-blue focus:ring-custom-blue" />
+            <span class="text-lg">No</span>
+          </label>
+        </div>
+      </div>
+      
+      <!-- Modal de Éxito -->
+      <div *ngIf="showSuccessModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 text-center max-w-sm w-full">
+          <img src="assets/listo.png" alt="Éxito" class="w-24 h-24 mx-auto mb-4 animate-bounce">
+          <p class="text-lg font-semibold text-gray-800">¡Registro exitoso!</p>
+          <button 
+            (click)="closeModal()" 
+            class="mt-6 bg-custom-blue text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+            Cerrar
+          </button>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-end space-x-4 mt-6">
+        <button 
+          type="submit" 
+          class="bg-custom-blue text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition"
+        >
+          Registrar
+        </button>
+        <button 
+          type="button" 
+          (click)="cancelar()" 
+          class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

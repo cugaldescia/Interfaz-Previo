@@ -1,0 +1,113 @@
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <div class="w-64 bg-custom-blue text-white p-4 min-h-screen hidden lg:block">
+    <div class="mb-6">
+      <img src="assets/Grupo_Escalante_logo.png" alt="Grupo Escalante" class="w-32 h-auto mx-auto filter grayscale" style="filter: brightness(0) invert(1);">
+    </div>
+    <ul class="space-y-4">
+      <li>
+        <a class="text-lg hover:text-gray-800 hover:bg-white p-2 rounded-md transition">
+          Referencias
+        </a>
+      </li>
+      <li>
+        <a href="/facturas" class="text-lg hover:text-gray-800 hover:bg-white p-2 rounded-md transition">
+          Facturas Registradas
+        </a>
+      </li>
+      <li>
+        <a href="/productos" class="text-lg hover:text-gray-800 hover:bg-white p-2 rounded-md transition">
+          Productos Registrados
+        </a>
+      </li>
+      <li>
+        <a href="/login" class="text-lg hover:text-gray-800 hover:bg-white p-2 rounded-md transition">
+          Cerrar de Sesion
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 p-6 bg-gray-100 overflow-auto">
+    <form (ngSubmit)="agregar()" class="space-y-6 max-w-2xl mx-auto">
+      <!-- Factura -->
+      <div class="space-y-4 mb-6">
+        <!-- Información global -->
+        <div class="bg-gray-100 p-4 rounded-lg shadow">
+            <p class="text-gray-700"><strong>Referencia:</strong> {{ referencias }}</p>
+            <p class="text-gray-700"><strong>Usuario:</strong> {{ oficina }}</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="factura" class="text-lg font-semibold text-gray-700">Factura:</label>
+        <input 
+          id="factura" 
+          [(ngModel)]="factura" 
+          name="factura" 
+          required 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        />
+      </div>
+
+      <!-- Observaciones -->
+      <div class="flex flex-col">
+        <label for="observacionesPrevio" class="text-lg font-semibold text-gray-700">Observaciones Previas:</label>
+        <textarea 
+          id="observacionesPrevio" 
+          [(ngModel)]="observacionesPrevio" 
+          name="observacionesPrevio" 
+          required 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        ></textarea>
+      </div>
+
+      <!-- Proveedor -->
+      <div class="flex flex-col">
+        <label for="proveedor" class="text-lg font-semibold text-gray-700">Proveedor:</label>
+        <select 
+          id="proveedor" 
+          [(ngModel)]="selectedProveedor" 
+          name="proveedor" 
+          title="Selecciona un proveedor" 
+          class="p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+        >
+          <option *ngFor="let proveedor of proveedores" [value]="proveedor.clave + ' - ' + proveedor.nombre">
+            {{ proveedor.clave }} - {{ proveedor.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Modal de Éxito -->
+      <div *ngIf="showSuccessModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 text-center max-w-sm w-full">
+          <img src="assets/listo.png" alt="Éxito" class="w-24 h-24 mx-auto mb-4 animate-bounce">
+          <p class="text-lg font-semibold text-gray-800">¡Registro exitoso!</p>
+          <button 
+            (click)="closeModal()" 
+            class="mt-6 bg-custom-blue text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+            Cerrar
+          </button>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-end space-x-4 mt-6">
+        <button 
+          type="submit" 
+          class="bg-custom-blue text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition"
+        >
+          Registrar
+        </button>
+        <button 
+          type="button" 
+          (click)="cancelar()" 
+          class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

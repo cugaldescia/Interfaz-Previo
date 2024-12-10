@@ -1,0 +1,9 @@
+.validado {
+    border-color: green;
+    color: green;
+  }
+  
+  .no-validado {
+    border-color: red;
+    color: red;
+  }
