@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class Usuarios {
+export class UsuariosService {
   private apiUrl = 'http://192.1.171.49:8096/usuarios/login';
 
   constructor(private http: HttpClient) {}
@@ -19,9 +19,9 @@ export class Usuarios {
       map(response => {
         if (response && response.usuario) {
           // Almacenar los datos del usuario en localStorage
-          const { usuario: usuario, nombre, rfc, oficina } = response.usuario;
+          const { usuario: usuario, nombreu, rfc, oficina } = response.usuario;
           localStorage.setItem('usuario', usuario);  // Almacenar el ID del usuario
-          localStorage.setItem('nombre', nombre);      // Almacenar el nombre del usuario
+          localStorage.setItem('nombre', nombreu);      // Almacenar el nombre del usuario
           localStorage.setItem('rfc', rfc);            // Almacenar el RFC del usuario
           localStorage.setItem('oficina', oficina);    // Almacenar la oficina del usuario
 

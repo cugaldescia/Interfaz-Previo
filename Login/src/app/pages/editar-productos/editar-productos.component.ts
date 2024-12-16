@@ -66,7 +66,7 @@ export class EditarProductosComponent implements OnInit {
 
   loadPais() {
     const oficina = localStorage.getItem('oficina');
-    const claveGuardada = localStorage.getItem('pais'); // Obtener la clave guardada
+    const claveGuardada = localStorage.getItem('pais'); 
   
     if (oficina) {
       console.log("Cargando unidades para la oficina:", oficina);
@@ -79,9 +79,8 @@ export class EditarProductosComponent implements OnInit {
             this.paises = response.paises;
   
             if (this.paises.length > 0) {
-              let paisSeleccionado = this.paises[0]; // Por defecto, la primera opción
-  
-              // Buscar la clave guardada en la lista de unidades
+              let paisSeleccionado = this.paises[0]; 
+
               if (claveGuardada) {
                 const paisEncontrado = this.paises.find(pais => pais.clave == claveGuardada || pais.nombre == claveGuardada);
                 if (paisEncontrado) {
@@ -96,9 +95,8 @@ export class EditarProductosComponent implements OnInit {
   
               const { nombre, clave } = paisSeleccionado;
   
-              // Verificar si la descripción está definida
               if (nombre && clave) {
-                // Selecciona la opción encontrada o la primera opción automáticamente
+
                 this.selectedpais = `${clave} - ${nombre}`;
               } else {
                 console.warn('Descripción no encontrada para la clave:', clave);
@@ -180,7 +178,7 @@ loadUnidad() {
   guardar(): void {
     const selectedProv = this.selectedpais.split(' - ');
     const selecteduni = this.selectedunidad.split(' - ');
-    console.log('Valor de isDefectuoso:', this.isDefectuoso); // Agrega esta línea para verificar el valor
+    console.log('Valor de isDefectuoso:', this.isDefectuoso); 
 
     const data = {
       productoId: this.productoId,
@@ -211,5 +209,18 @@ loadUnidad() {
 
   cancelar() {
     this.router.navigate(['/productos']);
+  }
+  cerrarsesion() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
+  Productos() {
+    this.router.navigate(['/productos']);
+  }
+  referencias() {
+    this.router.navigate(['/asignacion-referencias']);
+  }
+  facturas() {
+    this.router.navigate(['/facturas']);
   }
 }

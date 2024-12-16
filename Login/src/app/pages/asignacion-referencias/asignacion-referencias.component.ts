@@ -23,6 +23,7 @@ export class AsignacionReferenciasComponent implements OnInit {
   rfc: string | null = '';
   oficina: string | null = '';
   usuario: string | null = '';
+  nombreusuario: string | null = '';
   
 
   constructor(
@@ -41,6 +42,8 @@ export class AsignacionReferenciasComponent implements OnInit {
     this.rfc = localStorage.getItem('rfc');
     this.oficina = localStorage.getItem('oficina');
     this.usuario = localStorage.getItem('usuario');
+    this.nombreusuario = localStorage.getItem('nombre');
+
     if (!this.rfc || !this.oficina) {
       console.error('RFC u oficina no encontrados en el localStorage');
       return;
@@ -49,6 +52,7 @@ export class AsignacionReferenciasComponent implements OnInit {
     console.log('RFC:', this.rfc);
     console.log('Oficina:', this.oficina);
     console.log('Usuario', this.usuario);
+    
 
     this.obtenerReferencias(this.rfc, this.oficina);
   }
@@ -163,4 +167,9 @@ isJsonString(str: string): boolean {
   } catch (e) {
     return false;
   }
-}}
+}
+cerrarSesion(): void {
+  localStorage.clear();
+  this.router.navigate(['/login']);
+}
+}

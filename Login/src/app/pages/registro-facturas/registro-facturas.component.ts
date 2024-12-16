@@ -120,4 +120,14 @@ export class RegistroFacturasComponent implements OnInit {
   cancelar() {
     this.router.navigate(['/facturas']); 
   }
+  cerrarsesion() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
+  Referencias() {
+    this.router.navigate(['/asignacion-referencias']);
+  }
+  Facturas() {
+    this.router.navigate(['/facturas']);
+  }
 }

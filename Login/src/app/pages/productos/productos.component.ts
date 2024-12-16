@@ -4,8 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProductosService } from '../../services/productos.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import { of } from 'rxjs';
-
 @Component({
   selector: 'app-productos',
   standalone: true,
@@ -15,9 +13,9 @@ import { of } from 'rxjs';
 })
 export class ProductosComponent implements OnInit {
   factura: string | null = '';
-  dataSource = new MatTableDataSource<any>(); // DataSource para los productos
+  dataSource = new MatTableDataSource<any>(); 
   productoSeleccionado: any | null = null;
-  showModal = false; // Controla si se muestra el modal
+  showModal = false; 
   usuario: string = '';
   oficina: string = '';
 
@@ -29,7 +27,7 @@ export class ProductosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.factura = localStorage.getItem('factura');
+    this.factura = localStorage.getItem('factura') || '';
     this.usuario = localStorage.getItem('usuario') || '';
     this.oficina = localStorage.getItem('oficina') || '';
 
@@ -96,9 +94,18 @@ export class ProductosComponent implements OnInit {
     localStorage.setItem('productoId', productoData.productoId.toString());
     localStorage.setItem('observaciones', productoData.observaciones);
     localStorage.setItem('peso', productoData.peso.toString());
-
-
-  
   }
+  cerrarsesion() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
-
+  Productos() {
+    this.router.navigate(['/productos']);
+  }
+  referencias() {
+    this.router.navigate(['/asignacion-referencias']);
+  }
+  facturas() {
+    this.router.navigate(['/facturas']);
+  }
+}
