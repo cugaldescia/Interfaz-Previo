@@ -332,4 +332,17 @@ export class RegistroProductosComponent implements OnInit {
   cancelar() {
     this.router.navigate(['/productos']); // Redirige a la lista de productos si se cancela
   }
+  cerrarsesion() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
+  Productos() {
+    this.router.navigate(['/productos']);
+  }
+  referencias() {
+    this.router.navigate(['/asignacion-referencias']);
+  }
+  facturas() {
+    this.router.navigate(['/facturas']);
+  }
 }

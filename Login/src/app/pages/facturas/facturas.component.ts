@@ -19,6 +19,8 @@ export class FacturasComponent implements OnInit {
   usuario: string | null = '';
   rfc: string | null = '';
   oficina: string | null = '';
+  nombreusuario: string | null = '';
+
 
   constructor(
     private dialog: MatDialog,
@@ -31,6 +33,7 @@ export class FacturasComponent implements OnInit {
     this.rfc = localStorage.getItem('rfc')|| '';
     this.oficina = localStorage.getItem('oficina')|| ''; 
     this.usuario = localStorage.getItem('usuario')|| ''; 
+    this.nombreusuario = localStorage.getItem('nombre')|| '';
     if (!this.referencia) {
       console.error('Referencia no encontrada en el localStorage');
       return;
@@ -97,5 +100,15 @@ export class FacturasComponent implements OnInit {
       rfc: localStorage.getItem('rfc'),
       oficina: localStorage.getItem('oficina')
     });
+  }
+  referencias(){
+    this.router.navigate(['/asignacion-referencias']);
+  }
+  cerrarsesion(){
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
+  facturas(){
+    this.router.navigate(['/facturas']);
   }
 }

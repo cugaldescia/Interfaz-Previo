@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Usuarios } from '../../services/usuarios.service';
+import { UsuariosService } from '../../services/usuarios.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginComponent {
   loading = false;
 
   constructor(
-    private usuarios: Usuarios,
+    private usuarios: UsuariosService,
     private router: Router
   ) {}
 

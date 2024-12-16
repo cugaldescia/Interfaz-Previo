@@ -15,6 +15,5 @@ export const routes: Routes = [
   { path: 'registro-facturas', component: RegistroFacturasComponent},
   { path: 'registro-productos', component: RegistroProductosComponent},
   { path: 'productos', component: ProductosComponent },
-  { path: 'productos', component: ProductosComponent },
   { path: 'editar-productos/:descripcion', component: EditarProductosComponent }
    ,];
