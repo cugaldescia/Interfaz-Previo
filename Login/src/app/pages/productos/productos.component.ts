@@ -4,10 +4,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProductosService } from '../../services/productos.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @Component({
   selector: 'app-productos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatTooltipModule],
   templateUrl: './productos.component.html',
   styleUrl: './productos.component.css'
 })
@@ -18,6 +19,7 @@ export class ProductosComponent implements OnInit {
   showModal = false; 
   usuario: string = '';
   oficina: string = '';
+  isLoading = false;
 
 
   constructor(
@@ -38,6 +40,8 @@ export class ProductosComponent implements OnInit {
 
     console.log('factura:', this.factura);
     this.obtenerProductos(this.factura);
+    this.loadData();
+
   }
 
   obtenerProductos(factura: string): void {
@@ -95,6 +99,12 @@ export class ProductosComponent implements OnInit {
     localStorage.setItem('observaciones', productoData.observaciones);
     localStorage.setItem('peso', productoData.peso.toString());
   }
+  loadData(): void {
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 3000); 
+  }
   cerrarsesion() {
     localStorage.clear();
     this.router.navigate(['/login']);
@@ -108,4 +118,5 @@ export class ProductosComponent implements OnInit {
   facturas() {
     this.router.navigate(['/facturas']);
   }
+  
 }

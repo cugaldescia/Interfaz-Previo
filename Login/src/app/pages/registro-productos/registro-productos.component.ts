@@ -9,11 +9,12 @@ import { UnidadService } from '../../services/unidad.service';
 import { ConformidadService } from '../../services/conformidad.service'; // Importa el servicio de conformidad
 import { ValidacionService } from '../../services/validacion.service';
 import { NoclasificadoService } from '../../services/noclasificado.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-registro-productos',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule],
+  imports: [CommonModule, HttpClientModule, FormsModule, MatTooltipModule],
   templateUrl: './registro-productos.component.html',
   styleUrls: ['./registro-productos.component.css']
 })
@@ -49,6 +50,8 @@ export class RegistroProductosComponent implements OnInit {
   oficina: string = ''; // Nueva variable
   nombre: string = ''; // Nueva variable
   factura: string = ''; // Nueva variable
+  isloading = false;
+  mostrarCamposAdicionales: boolean = false; // Nueva variable para mostrar campos adicionales
 
   constructor(
     private registroPService: RegistroproductosService,
@@ -63,15 +66,15 @@ export class RegistroProductosComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarDatosGlobales();
-    this.loadPais();
     this.loadUnidad();
+    this.loadData();
 
     
   }
 
   
   agregarNoclasificado(): void {
-    const selectedPaisClave = this.selectedpais.split(' - ')[0];  // Obtener solo la clave del país
+    const selectedPaisClave = this.selectedpais;  // Obtener solo la clave del país
     const selectedUnidadClave = this.selectedunidad.split(' - ')[0];  // Obtener solo la clave de la unidad de medida
 
     const data = {
@@ -118,15 +121,20 @@ export class RegistroProductosComponent implements OnInit {
             this.validacionProductoMensaje = 'El producto está clasificado.';
             this.validacionProductoClase = 'validado';
             this.isProductoClasificado = true;
+            this.mostrarCamposAdicionales = false; // Ocultar campos adicionales
           } else {
             this.validacionProductoMensaje = 'Error al procesar la respuesta.';
             this.validacionProductoClase = 'no-validado';
             this.isProductoClasificado = false;
+            this.mostrarCamposAdicionales = true; // Mostrar campos adicionales
+            this.agregarNoclasificado(); // Agregar producto no clasificado
           }
         } else {
           this.validacionProductoMensaje = 'El producto no está clasificado.';
           this.validacionProductoClase = 'no-validado';
           this.isProductoClasificado = false;
+          this.mostrarCamposAdicionales = true; // Mostrar campos adicionales
+          this.agregarNoclasificado(); // Agregar producto no clasificado
         }
       },
       error => {
@@ -134,44 +142,12 @@ export class RegistroProductosComponent implements OnInit {
         this.validacionProductoMensaje = 'Error al validar el producto.';
         this.validacionProductoClase = 'no-validado';
         this.isProductoClasificado = false;
+        this.mostrarCamposAdicionales = true; // Mostrar campos adicionales
+        this.agregarNoclasificado(); // Agregar producto no clasificado
       }
     );
   }
-  loadPais() {
-    const oficina = localStorage.getItem('oficina');
-  
-    if (oficina) {
-      console.log("Cargando países para la oficina:", oficina);
-  
-      this.paisService.getPais(oficina).subscribe(
-        (response) => {
-          console.log('Datos País:', response);
-  
-          if (response && response.paises && Array.isArray(response.paises)) {
-            this.paises = response.paises;
-  
-            // Agregar la opción "000 - PAIS" al inicio
-            this.paises.unshift({ clave: '0', descripcion: 'PAIS' });
-  
-            if (this.paises.length > 0) {
-              const { descripcion, clave } = this.paises[0];
-  
-              // Selecciona la primera opción automáticamente
-              this.selectedpais = `${clave} - ${descripcion}`;
-              console.log('Primera opción seleccionada:', this.selectedpais);
-            }
-          } else {
-            console.warn('Estructura de datos inválida o vacía:', response);
-          }
-        },
-        (error) => {
-          console.error('Error al cargar países:', error);
-        }
-      );
-    } else {
-      console.warn('No se encontró la oficina en localStorage.');
-    }
-  }
+
   
   
   loadUnidad() {
@@ -251,7 +227,7 @@ export class RegistroProductosComponent implements OnInit {
       alert('El campo peso es obligatorio');
       return;
     }
-    const selectedProv = this.selectedpais.split(' - ');
+    const selectedProv = this.selectedpais;
     if (selectedProv.length < 2) {
       alert('Debe seleccionar un pais válido');
       return;
@@ -271,7 +247,7 @@ export class RegistroProductosComponent implements OnInit {
       descripcion: this.descripcion,
       numeroSerie: this.numeroSerie,
       isDefectuoso: isDefectuosoValue,  // Se guarda 0 para conformidad y 1 para no conformidad
-      pais: selectedProv[0],
+      pais: selectedProv,
       nombrePais: selectedProv[1],
       unidad: selecteduni[0],  // Aquí se guarda la unidad
       nombreUnidad: selecteduni[0],  // Aquí se guarda el nombre de la unidad
@@ -292,6 +268,10 @@ export class RegistroProductosComponent implements OnInit {
         console.log('Respuesta del servidor:', response);
         this.showSuccessModal = true; // Mostrar modal de éxito
   
+        // Si el producto no está clasificado, también registrar en noclasificado
+        if (!this.isProductoClasificado) {
+          this.agregarNoclasificado();
+        }
   
         this.resetForm();
       },
@@ -327,8 +307,15 @@ export class RegistroProductosComponent implements OnInit {
     this.marca = ''; // Restablecer el campo marca
     this.modelo = ''; // Restablecer el campo modelo
     this.validacionProductoMensaje = ''; // Restablecer el mensaje de validación
+    this.mostrarCamposAdicionales = false; // Restablecer la visibilidad de los campos adicionales
   }
 
+  loadData() {
+    this.isloading = true;
+    setTimeout(() => {
+      this.isloading = false;
+    }, 3000); // Simula 2 segundos de carga
+  }
   cancelar() {
     this.router.navigate(['/productos']); // Redirige a la lista de productos si se cancela
   }
@@ -344,5 +331,8 @@ export class RegistroProductosComponent implements OnInit {
   }
   facturas() {
     this.router.navigate(['/facturas']);
+  }
+  mostrarTooltip(): void {
+    console.log('Tooltip mostrado: El orden es el número de cómo está capturado el producto en la factura');
   }
 }

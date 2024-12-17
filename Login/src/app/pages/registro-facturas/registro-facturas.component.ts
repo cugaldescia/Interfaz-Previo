@@ -25,11 +25,14 @@ export class RegistroFacturasComponent implements OnInit {
   cliente: string ='';
   usuario: string = '';
   showSuccessModal: boolean = false
+  isLoading = false;
   constructor(private registroFPService: RegistroFPService, private router: Router, private proveedoresServices:ProveedoresService) {}
 
   ngOnInit(): void {
     this.cargarDatosGlobales();
     this.loadProveedores();
+    this.loadData();
+
   }
 
   cargarDatosGlobales() {
@@ -42,7 +45,7 @@ export class RegistroFacturasComponent implements OnInit {
   }
 
   loadProveedores() {
-    const rfc = localStorage.getItem('rfc');
+    const rfc = localStorage.getItem('rfcReferencia');
     const oficina = localStorage.getItem('oficina');
     if (rfc && oficina) {
       console.log("rrr")
@@ -119,6 +122,13 @@ export class RegistroFacturasComponent implements OnInit {
 
   cancelar() {
     this.router.navigate(['/facturas']); 
+  }
+  loadData(): void {
+    this.isLoading = true;
+    // Simular una llamada a la base de datos
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 2000); // Simula 2 segundos de carga
   }
   cerrarsesion() {
     localStorage.clear();

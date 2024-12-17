@@ -24,6 +24,7 @@ export class AsignacionReferenciasComponent implements OnInit {
   oficina: string | null = '';
   usuario: string | null = '';
   nombreusuario: string | null = '';
+  isLoading = false;
   
 
   constructor(
@@ -39,23 +40,23 @@ export class AsignacionReferenciasComponent implements OnInit {
 
   ngOnInit(): void {
     // Obtener los datos de 'rfc' y 'oficina' desde el localStorage
-    this.rfc = localStorage.getItem('rfc');
-    this.oficina = localStorage.getItem('oficina');
-    this.usuario = localStorage.getItem('usuario');
-    this.nombreusuario = localStorage.getItem('nombre');
+  this.rfc = localStorage.getItem('rfc');
+  this.oficina = localStorage.getItem('oficina');
+  this.usuario = localStorage.getItem('usuario');
+  this.nombreusuario = localStorage.getItem('nombre');
 
-    if (!this.rfc || !this.oficina) {
-      console.error('RFC u oficina no encontrados en el localStorage');
-      return;
-    }
-
-    console.log('RFC:', this.rfc);
-    console.log('Oficina:', this.oficina);
-    console.log('Usuario', this.usuario);
-    
-
-    this.obtenerReferencias(this.rfc, this.oficina);
+  if (!this.rfc || !this.oficina) {
+    console.error('RFC u oficina no encontrados en el localStorage');
+    return;
   }
+
+  console.log('RFC:', this.rfc);
+  console.log('Oficina:', this.oficina);
+  console.log('Usuario', this.usuario);
+
+  this.obtenerReferencias(this.rfc, this.oficina);
+  this.loadData();
+}
 
   obtenerReferencias(rfc: string, oficina: string): void {
     this.referenciasService.getReferencias(rfc, oficina).subscribe({
@@ -82,9 +83,12 @@ export class AsignacionReferenciasComponent implements OnInit {
     this.referenciaSeleccionada = referenciaData;
     console.log('Referencia seleccionada:', referenciaData);
   
-    // Guardar la referencia seleccionada en localStorage
     localStorage.setItem('referencia', referenciaData.referencia);
     localStorage.setItem('nombre', referenciaData.nombre);
+    localStorage.setItem('rfcReferencia', referenciaData.rfc);
+    localStorage.setItem('cliente', referenciaData.cliente);
+    console.log('cliente:', referenciaData.cliente);
+  
   
     // Navegar a la página de facturas
     this.router.navigate(['/facturas'], {
@@ -136,12 +140,11 @@ export class AsignacionReferenciasComponent implements OnInit {
 
 mandarCorreo(referenciaData: any): void {
   console.log('Productos no clasificados:', referenciaData);
-  this.referenciaSeleccionada = referenciaData; // Marca la referencia como seleccionada
+  this.referenciaSeleccionada = referenciaData; 
 
-  // Crear entrada de bitácora
   const clasificacionentry = {
     referencia: referenciaData.referencia,
-    oficina: this.oficina // Asegúrate de que this.oficina esté obtenida del localStorage
+    oficina: this.oficina 
   };
 
   this.clasificacionMailService.mandarMail(clasificacionentry).subscribe({
@@ -168,8 +171,18 @@ isJsonString(str: string): boolean {
     return false;
   }
 }
+loadData(): void {
+  this.isLoading = true;
+  
+  setTimeout(() => {
+    this.isLoading = false;
+  }, 2000);
+}
 cerrarSesion(): void {
   localStorage.clear();
   this.router.navigate(['/login']);
+}
+Referencias(): void {
+  this.router.navigate(['/asignacion-referencias']);
 }
 }

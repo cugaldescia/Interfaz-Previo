@@ -31,6 +31,7 @@ export class EditarProductosComponent implements OnInit {
   peso: string = '';
   usuario: string = '';
   oficina: string = '';
+  isLoading = false;
 
   constructor(
     private editarProductoService: EditarProductoService,
@@ -43,6 +44,8 @@ export class EditarProductosComponent implements OnInit {
     this.cargarDatosGlobales();
     this.loadPais();
     this.loadUnidad();
+    this.loadData();
+
     
 }
 
@@ -222,5 +225,12 @@ loadUnidad() {
   }
   facturas() {
     this.router.navigate(['/facturas']);
+  }
+  loadData(): void {
+    this.isLoading = true;
+    // Simular una llamada a la base de datos
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 2000); // Simula 2 segundos de carga
   }
 }

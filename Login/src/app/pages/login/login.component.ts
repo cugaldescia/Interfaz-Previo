@@ -40,6 +40,7 @@ export class LoginComponent {
           console.log('Respuesta de login exitosa:', response);
           const userData = response.usuario;
           localStorage.setItem('userData', JSON.stringify(userData));
+          
           this.router.navigate(['/asignacion-referencias']);
         },
         error: (error) => {

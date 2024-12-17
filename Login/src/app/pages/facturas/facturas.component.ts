@@ -20,6 +20,8 @@ export class FacturasComponent implements OnInit {
   rfc: string | null = '';
   oficina: string | null = '';
   nombreusuario: string | null = '';
+  isLoading = false;
+
 
 
   constructor(
@@ -41,6 +43,8 @@ export class FacturasComponent implements OnInit {
 
     console.log('referencia:', this.referencia);
     this.obtenerFacturas(this.referencia);
+    this.loadData();
+  
   }
 
   obtenerFacturas(referencia: string): void {
@@ -101,7 +105,15 @@ export class FacturasComponent implements OnInit {
       oficina: localStorage.getItem('oficina')
     });
   }
+  loadData(): void {
+    this.isLoading = true;
+    // Simular una llamada a la base de datos
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 2000); // Simula 2 segundos de carga
+  }
   referencias(){
+    this.rfc = localStorage.getItem('rfc');
     this.router.navigate(['/asignacion-referencias']);
   }
   cerrarsesion(){
