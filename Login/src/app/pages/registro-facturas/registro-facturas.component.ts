@@ -26,12 +26,14 @@ export class RegistroFacturasComponent implements OnInit {
   usuario: string = '';
   showSuccessModal: boolean = false
   isLoading = false;
+  nombreusuario: string | null = '';
   constructor(private registroFPService: RegistroFPService, private router: Router, private proveedoresServices:ProveedoresService) {}
 
   ngOnInit(): void {
     this.cargarDatosGlobales();
     this.loadProveedores();
     this.loadData();
+    this.nombreusuario = localStorage.getItem('nombreUsuario')||'';
 
   }
 

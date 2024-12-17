@@ -35,7 +35,7 @@ export class FacturasComponent implements OnInit {
     this.rfc = localStorage.getItem('rfc')|| '';
     this.oficina = localStorage.getItem('oficina')|| ''; 
     this.usuario = localStorage.getItem('usuario')|| ''; 
-    this.nombreusuario = localStorage.getItem('nombre')|| '';
+    this.nombreusuario = localStorage.getItem('nombreUsuario')||'';
     if (!this.referencia) {
       console.error('Referencia no encontrada en el localStorage');
       return;

@@ -52,6 +52,7 @@ export class RegistroProductosComponent implements OnInit {
   factura: string = ''; // Nueva variable
   isloading = false;
   mostrarCamposAdicionales: boolean = false; // Nueva variable para mostrar campos adicionales
+  nombreusuario: string | null = '';
 
   constructor(
     private registroPService: RegistroproductosService,
@@ -68,14 +69,13 @@ export class RegistroProductosComponent implements OnInit {
     this.cargarDatosGlobales();
     this.loadUnidad();
     this.loadData();
-
+    this.nombreusuario = localStorage.getItem('nombreUsuario') || '';
     
   }
 
   
   agregarNoclasificado(): void {
     const selectedPaisClave = this.selectedpais;  // Obtener solo la clave del país
-    const selectedUnidadClave = this.selectedunidad.split(' - ')[0];  // Obtener solo la clave de la unidad de medida
 
     const data = {
       referencia: this.referencia,
@@ -86,7 +86,7 @@ export class RegistroProductosComponent implements OnInit {
       usoMercancia: this.usoMercancia,
       estadoMercancia: this.estadoMercancia,
       clavePais: selectedPaisClave,  // Guardar solo la clave del país
-      claveUnidadMedida: selectedUnidadClave,  // Guardar solo la clave de la unidad de medida
+      claveUnidadMedida: this.selectedunidad.split(' - ')[0],  // Guardar solo la clave de la unidad de medida
       marca: this.marca,
       modelo: this.modelo,
       presentacionComposicion: this.presentacionComposicion,
@@ -197,6 +197,7 @@ export class RegistroProductosComponent implements OnInit {
 
   }
 
+  // ...existing code...
   agregar() {
     // Validación de campos
     if (this.producto.trim() === '') {
@@ -227,8 +228,8 @@ export class RegistroProductosComponent implements OnInit {
       alert('El campo peso es obligatorio');
       return;
     }
-    const selectedProv = this.selectedpais;
-    if (selectedProv.length < 2) {
+    const selectedProv = this.selectedpais.split(' - ')[0]; // Extraer solo el número del país
+    if (selectedProv.length < 0) {
       alert('Debe seleccionar un pais válido');
       return;
     }
@@ -247,8 +248,7 @@ export class RegistroProductosComponent implements OnInit {
       descripcion: this.descripcion,
       numeroSerie: this.numeroSerie,
       isDefectuoso: isDefectuosoValue,  // Se guarda 0 para conformidad y 1 para no conformidad
-      pais: selectedProv,
-      nombrePais: selectedProv[1],
+      pais: selectedProv,  // Guardar solo el número del país
       unidad: selecteduni[0],  // Aquí se guarda la unidad
       nombreUnidad: selecteduni[0],  // Aquí se guarda el nombre de la unidad
       cantidad: this.cantidad,
@@ -281,9 +281,7 @@ export class RegistroProductosComponent implements OnInit {
         alert(`Error al guardar datos: ${errorMessage}`);
       }
     );
-    
   }
-  
   
   closeModal() {
     this.showSuccessModal = false;

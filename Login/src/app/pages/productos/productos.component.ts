@@ -20,6 +20,7 @@ export class ProductosComponent implements OnInit {
   usuario: string = '';
   oficina: string = '';
   isLoading = false;
+  nombreusuario: string | null = '';
 
 
   constructor(
@@ -32,6 +33,7 @@ export class ProductosComponent implements OnInit {
     this.factura = localStorage.getItem('factura') || '';
     this.usuario = localStorage.getItem('usuario') || '';
     this.oficina = localStorage.getItem('oficina') || '';
+    this.nombreusuario = localStorage.getItem('nombreUsuario') || '';
 
     if (!this.factura) {
       console.error('Factura no encontrada en el localStorage');

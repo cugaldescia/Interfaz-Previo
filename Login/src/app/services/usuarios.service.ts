@@ -19,9 +19,9 @@ export class UsuariosService {
       map(response => {
         if (response && response.usuario) {
           // Almacenar los datos del usuario en localStorage
-          const { usuario: usuario, nombreu, rfc, oficina } = response.usuario;
+          const { usuario: usuario, nombre, rfc, oficina } = response.usuario;
           localStorage.setItem('usuario', usuario);  // Almacenar el ID del usuario
-          localStorage.setItem('nombre', nombreu);      // Almacenar el nombre del usuario
+          localStorage.setItem('nombreUsuario', nombre);      // Almacenar el nombre del usuario
           localStorage.setItem('rfc', rfc);            // Almacenar el RFC del usuario
           localStorage.setItem('oficina', oficina);    // Almacenar la oficina del usuario
 

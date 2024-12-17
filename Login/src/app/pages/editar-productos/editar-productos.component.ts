@@ -32,6 +32,7 @@ export class EditarProductosComponent implements OnInit {
   usuario: string = '';
   oficina: string = '';
   isLoading = false;
+  nombreusuario: string | null = '';
 
   constructor(
     private editarProductoService: EditarProductoService,
@@ -45,7 +46,7 @@ export class EditarProductosComponent implements OnInit {
     this.loadPais();
     this.loadUnidad();
     this.loadData();
-
+    this.nombreusuario = localStorage.getItem('nombreUsuario') || '';
     
 }
 

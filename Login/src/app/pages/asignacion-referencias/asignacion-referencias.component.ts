@@ -39,11 +39,10 @@ export class AsignacionReferenciasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Obtener los datos de 'rfc' y 'oficina' desde el localStorage
   this.rfc = localStorage.getItem('rfc');
   this.oficina = localStorage.getItem('oficina');
   this.usuario = localStorage.getItem('usuario');
-  this.nombreusuario = localStorage.getItem('nombre');
+  this.nombreusuario = localStorage.getItem('nombreUsuario');
 
   if (!this.rfc || !this.oficina) {
     console.error('RFC u oficina no encontrados en el localStorage');
