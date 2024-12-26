@@ -5,6 +5,7 @@ import { ProductosService } from '../../services/productos.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FotosService } from '../../services/fotos.service';
 @Component({
   selector: 'app-productos',
   standalone: true,
@@ -21,11 +22,15 @@ export class ProductosComponent implements OnInit {
   oficina: string = '';
   isLoading = false;
   nombreusuario: string | null = '';
+  showImageModal = false;
+  imagenes: string[] = [];
+  currentImageIndex = 0;
 
 
   constructor(
     private dialog: MatDialog,
     private productosService: ProductosService,
+    private fotosService: FotosService,
     private router: Router
   ) {}
 
@@ -50,7 +55,7 @@ export class ProductosComponent implements OnInit {
     this.productosService.getProductos(factura).subscribe({
       next: (response) => {
         if (response && Array.isArray(response)) {
-          this.dataSource.data = response.length > 0 ? response : [];
+          this.dataSource.data = response.length > 0 ? response.sort((a, b) => a.orden - b.orden) : [];
           console.log('Productos cargados:', this.dataSource.data);
         } else {
           console.warn('La respuesta de la API no es válida:', response);
@@ -119,6 +124,45 @@ export class ProductosComponent implements OnInit {
   }
   facturas() {
     this.router.navigate(['/facturas']);
+  }
+  verFotos(productoData: any): void {
+    const referencia = localStorage.getItem('referencia');
+    if (!referencia) {
+      console.error('Referencia no encontrada en el localStorage');
+      return;
+    }
+
+    this.fotosService.getFotos(referencia, productoData.producto).subscribe({
+      next: (response) => {
+        if (response && Array.isArray(response)) {
+          this.imagenes = response.map(foto => `data:image/jpeg;base64,${foto.imagen.data}`);
+          this.currentImageIndex = 0;
+          this.showImageModal = true;
+        } else {
+          console.warn('La respuesta de la API no es válida:', response);
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener las imágenes:', error);
+      }
+    });
+  }
+
+  closeImageModal(): void {
+    this.showImageModal = false;
+    this.imagenes = [];
+  }
+
+  prevImage(): void {
+    if (this.currentImageIndex > 0) {
+      this.currentImageIndex--;
+    }
+  }
+
+  nextImage(): void {
+    if (this.currentImageIndex < this.imagenes.length - 1) {
+      this.currentImageIndex++;
+    }
   }
   
 }
