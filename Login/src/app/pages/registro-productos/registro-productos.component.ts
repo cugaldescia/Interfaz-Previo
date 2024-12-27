@@ -47,7 +47,7 @@ export class RegistroProductosComponent implements OnInit {
   modelo: string = ''; // Nueva variable
   clienteC: string = ''; // Nueva variable
   proveedorC: string = ''; // Nueva variable
-  oficina: string = ''; // Nueva variable
+  oficinas: string = ''; // Nueva variable
   nombre: string = ''; // Nueva variable
   factura: string = ''; // Nueva variable
   isloading = false;
@@ -90,7 +90,7 @@ export class RegistroProductosComponent implements OnInit {
       marca: this.marca,
       modelo: this.modelo,
       presentacionComposicion: this.presentacionComposicion,
-      oficina: this.oficina,
+      oficina: this.oficinas,
       usuario: this.usuario
     };
     if (this.isProductoClasificado) {
@@ -151,10 +151,10 @@ export class RegistroProductosComponent implements OnInit {
   
   
   loadUnidad() {
-    const oficina = localStorage.getItem('oficina');
-    if (oficina) {
+    const oficinas = localStorage.getItem('oficinas');
+    if (oficinas) {
       console.log("Cargando unidades...");
-      this.unidadService.getUnidad(oficina).subscribe(
+      this.unidadService.getUnidad(oficinas).subscribe(
         (response) => {
           console.log('Datos Unidad:', response);
           this.unidades = response.unidades;
@@ -186,7 +186,7 @@ export class RegistroProductosComponent implements OnInit {
     this.idBitacora = localStorage.getItem('idBitacora') || ''; 
     this.clienteC = localStorage.getItem('cliente') || ''; // Carga el cliente desde el localStorage
     this.proveedorC = localStorage.getItem('proveedorId') || ''; // Carga el proveedor desde el localStorage
-    this.oficina = localStorage.getItem('oficina') || ''; // Carga la oficina desde el localStorage
+    this.oficinas = localStorage.getItem('oficinas') || ''; // Carga la oficina desde el localStorage
     this.nombre = localStorage.getItem('nombre') || ''; // Carga el nombre desde el localStorage
     this.factura = localStorage.getItem('factura') || ''; // Carga la factura desde el localStorage
     console.log('Datos cargados desde localStorage:');

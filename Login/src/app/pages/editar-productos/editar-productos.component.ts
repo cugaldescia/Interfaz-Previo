@@ -30,7 +30,7 @@ export class EditarProductosComponent implements OnInit {
   observacionesProducto: string = '';
   peso: string = '';
   usuario: string = '';
-  oficina: string = '';
+  oficinas: string = '';
   isLoading = false;
   nombreusuario: string | null = '';
 
@@ -52,7 +52,7 @@ export class EditarProductosComponent implements OnInit {
 
   cargarDatosGlobales() {
     this.usuario = localStorage.getItem('usuario') || '';
-    this.oficina = localStorage.getItem('oficina') || '';
+    this.oficinas = localStorage.getItem('oficinas') || '';
     this.productoId = localStorage.getItem('productoId') || '';
     this.facturaId = localStorage.getItem('id') || '';
     this.producto = localStorage.getItem('producto') || '';
@@ -69,13 +69,13 @@ export class EditarProductosComponent implements OnInit {
   }
 
   loadPais() {
-    const oficina = localStorage.getItem('oficina');
+    const oficinas = localStorage.getItem('oficinas');
     const claveGuardada = localStorage.getItem('pais'); 
   
-    if (oficina) {
-      console.log("Cargando unidades para la oficina:", oficina);
+    if (oficinas) {
+      console.log("Cargando unidades para la oficina:", oficinas);
   
-      this.paisService.getPais(oficina).subscribe(
+      this.paisService.getPais(oficinas).subscribe(
         (response) => {
           console.log('Datos unidad:', response);
   
@@ -123,13 +123,13 @@ export class EditarProductosComponent implements OnInit {
   }
 
 loadUnidad() {
-    const oficina = localStorage.getItem('oficina');
+    const oficinas = localStorage.getItem('oficinas');
     const claveGuardada = localStorage.getItem('unidad'); // Obtener la clave guardada
   
-    if (oficina) {
-      console.log("Cargando unidades para la oficina:", oficina);
+    if (oficinas) {
+      console.log("Cargando unidades para la oficina:", oficinas);
   
-      this.unidadService.getUnidad(oficina).subscribe(
+      this.unidadService.getUnidad(oficinas).subscribe(
         (response) => {
           console.log('Datos unidad:', response);
   

@@ -21,7 +21,7 @@ export class AsignacionReferenciasComponent implements OnInit {
   showModal = false; // Controla si se muestra el modal
   userData= new MatTableDataSource<any>(); // DataSource para las referencias
   rfc: string | null = '';
-  oficina: string | null = '';
+  oficinas: string | null = '';
   usuario: string | null = '';
   nombreusuario: string | null = '';
   isLoading = false;
@@ -40,20 +40,20 @@ export class AsignacionReferenciasComponent implements OnInit {
 
   ngOnInit(): void {
   this.rfc = localStorage.getItem('rfc');
-  this.oficina = localStorage.getItem('oficina');
+  this.oficinas = localStorage.getItem('oficinas');
   this.usuario = localStorage.getItem('usuario');
   this.nombreusuario = localStorage.getItem('nombreUsuario');
 
-  if (!this.rfc || !this.oficina) {
+  if (!this.rfc || !this.oficinas) {
     console.error('RFC u oficina no encontrados en el localStorage');
     return;
   }
 
   console.log('RFC:', this.rfc);
-  console.log('Oficina:', this.oficina);
+  console.log('Oficina:', this.oficinas);
   console.log('Usuario', this.usuario);
 
-  this.obtenerReferencias(this.rfc, this.oficina);
+  this.obtenerReferencias(this.rfc, this.oficinas);
   this.loadData();
 }
 
@@ -118,7 +118,7 @@ export class AsignacionReferenciasComponent implements OnInit {
           conformidad: conformidad,
           observaciones: observaciones,
           usuario: this.usuario,
-          oficina: this.oficina
+          oficina: this.oficinas
         };
   
         // Guardar en bitácora
@@ -143,7 +143,7 @@ mandarCorreo(referenciaData: any): void {
 
   const clasificacionentry = {
     referencia: referenciaData.referencia,
-    oficina: this.oficina 
+    oficina: this.oficinas
   };
 
   this.clasificacionMailService.mandarMail(clasificacionentry).subscribe({

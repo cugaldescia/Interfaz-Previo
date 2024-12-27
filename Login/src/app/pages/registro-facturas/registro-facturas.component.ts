@@ -21,7 +21,7 @@ export class RegistroFacturasComponent implements OnInit {
   proveedores: any[] = [];         
   selectedProveedor: string = '';   
   identificador: string = '';              
-  oficina: string = '';            
+  oficinas: string = '';            
   cliente: string ='';
   usuario: string = '';
   showSuccessModal: boolean = false
@@ -41,17 +41,17 @@ export class RegistroFacturasComponent implements OnInit {
     this.nombre = localStorage.getItem('nombre') || '';
     this.referencias = localStorage.getItem('referencia') || ''; 
     this.identificador = localStorage.getItem('rfc') || ''; 
-    this.oficina = localStorage.getItem('oficina') || '';
+    this.oficinas = localStorage.getItem('oficinas') || '';
     this.cliente= localStorage.getItem('cliente') || '';
     this.usuario = localStorage.getItem('usuario') || '';
   }
 
   loadProveedores() {
     const rfc = localStorage.getItem('rfcReferencia');
-    const oficina = localStorage.getItem('oficina');
-    if (rfc && oficina) {
+    const oficinas = localStorage.getItem('oficinas');
+    if (rfc && oficinas) {
       console.log("rrr")
-      this.proveedoresServices.getProveedor(rfc, oficina).subscribe(
+      this.proveedoresServices.getProveedor(rfc, oficinas).subscribe(
         (data) => {
           console.log('Datos de proveedores:', data);
           this.proveedores = data.map((prov: any) => ({
@@ -66,7 +66,7 @@ export class RegistroFacturasComponent implements OnInit {
         }
       );
       
-    }else console.log(rfc && oficina)
+    }else console.log(rfc && oficinas)
   }
 
   agregar() {
